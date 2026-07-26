@@ -247,6 +247,14 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 .story-a li::before{content:'✕';color:#8a4a44}
 .story-b li::before{content:'✓';color:#7fa06a}
 .rail-hint{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+/* кнопка раскрытия историй живёт только на телефоне */
+.more-btn{
+  display:none;width:100%;margin-top:20px;padding:16px 22px;font:inherit;font-size:13px;
+  font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt);
+  background:rgba(201,162,74,.06);border:1px solid rgba(201,162,74,.32);border-radius:3px;
+  cursor:pointer;transition:background .3s ease,border-color .3s ease
+}
+.more-btn:hover{background:rgba(201,162,74,.12);border-color:rgba(201,162,74,.55)}
 
 /* ---------- fears ---------- */
 .fears{display:grid;gap:18px;margin-top:46px}
@@ -359,6 +367,20 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
   .cases{grid-template-columns:repeat(3,1fr)}
   /* карточки историй по своему содержанию, иначе короткая тянется до высоты самой длинной */
   .rail{align-items:flex-start}
+  /* На телефоне в кадре одна история, а высота ленты равна самой длинной карточке, поэтому под
+     короткой зияло до 316px пустого фона. Горизонталь тут не лечится выравниванием, поэтому
+     истории раскладываем в столбик: и дыра уходит, и вертикальная прокрутка привычнее пальцу.
+     Первые три открыты, остальные под кнопкой, чтобы страница не выросла на пять экранов. */
+  .rail.stories{
+    display:grid;grid-auto-flow:row;gap:18px;overflow:visible;scroll-snap-type:none;
+    cursor:auto;padding-bottom:0;margin-top:36px
+  }
+  .rail.stories .story{flex:none;width:100%;max-width:none}
+  .rail.stories .story.more{display:none}
+  .rail.stories.open .story.more{display:flex}
+  .rail.stories+.rail-hint{display:none}
+  .more-btn{display:block}
+  .rail.stories.open+.rail-hint+.more-btn{display:none}
   .step{grid-template-columns:60px 1fr}
   .step-n{font-size:32px}
   .read .first::first-letter{font-size:58px}
@@ -494,7 +516,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
 
     <div class="rv" style="margin-top:84px">
       <p class="eyebrow">Истории до и после</p>
-      <div class="rail"><article class="story">
+      <div class="rail stories"><article class="story">
   <header class="story-top">
     <img src="img/sav_0.jpg" alt="Екатерина Шергина" loading="lazy">
     <div>
@@ -551,7 +573,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
     <ul class="story-b"><li>нашла свою уникальную систему, легко и быстро продаёт</li><li>поняла, что она премиум сегмента, продала личную работу за 500 000 ₽</li><li>тотальная уверенность в себя и своё дело</li><li>на экваторе обучения сделала 850 000 ₽</li><li>создала своё наставничество и продала его на 630 000 ₽ за месяц</li></ul>
   </div>
 </article>
-<article class="story">
+<article class="story more">
   <header class="story-top">
     <img src="img/sav_3.jpg" alt="Анна Жук" loading="lazy">
     <div>
@@ -570,7 +592,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
     <ul class="story-b"><li>наняла команду, считает её своим важным проектом</li><li>автоматизировала рабочие процессы</li><li>продажи на групповых разборах, запуск своей группы наставничества</li><li>организовала систему трафика, регулярная реклама</li></ul>
   </div>
 </article>
-<article class="story">
+<article class="story more">
   <header class="story-top">
     <img src="img/sav_4.jpg" alt="Ирина Родина" loading="lazy">
     <div>
@@ -589,7 +611,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
     <ul class="story-b"><li>проработала состояние, высвободила энергию на действия</li><li>вернула веру в себя и свой продукт</li><li>выровняла баланс духовной работы и материальных инструментов</li></ul>
   </div>
 </article>
-<article class="story">
+<article class="story more">
   <header class="story-top">
     <img src="img/sav_5.jpg" alt="Яна Червонная" loading="lazy">
     <div>
@@ -608,7 +630,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
     <ul class="story-b"><li>настроила воронку продаж на холодную аудиторию</li><li>на практике наставничества прокачала навык продаж без отработки возражений</li><li>собрала 2 группы на обучение</li></ul>
   </div>
 </article>
-<article class="story">
+<article class="story more">
   <header class="story-top">
     <img src="img/sav_6.jpg" alt="Екатерина Богданова" loading="lazy">
     <div>
@@ -627,7 +649,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
     <ul class="story-b"><li>набрала 2 группы на своё наставничество, бережно, без выгорания</li><li>кайф и удовольствие от групповой динамики</li><li>начала работать с холодной аудиторией</li></ul>
   </div>
 </article>
-<article class="story">
+<article class="story more">
   <header class="story-top">
     <img src="img/sav_7.jpg" alt="Ангелия Аврах" loading="lazy">
     <div>
@@ -646,7 +668,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
     <ul class="story-b"><li>развили ТГ канал с 0, который стал приносить заявки и доход</li><li>внедрили систему продаж и структуру контента Нового времени</li><li>создали комплексный продукт и продуктовую линейку</li></ul>
   </div>
 </article>
-<article class="story">
+<article class="story more">
   <header class="story-top">
     <img src="img/sav_8.jpg" alt="Наталия Лингурян" loading="lazy">
     <div>
@@ -666,6 +688,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
   </div>
 </article></div>
       <p class="rail-hint">Листай в сторону</p>
+      <button class="more-btn" type="button" data-rail="stories">Показать ещё 6 историй</button>
     </div>
 
     <div class="rv" style="margin-top:64px">
@@ -798,6 +821,16 @@ document.addEventListener('DOMContentLoaded',function(){
     },{threshold:.5});
     sums.forEach(function(el){ el.setAttribute('data-sum',el.textContent); cio.observe(el); });
   }
+
+  // на телефоне истории лежат столбиком, четвёртая и дальше раскрываются по кнопке
+  document.querySelectorAll('.more-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var rail=document.querySelector('.rail.'+btn.getAttribute('data-rail'));
+      if(!rail) return;
+      rail.classList.add('open');
+      btn.style.display='none';
+    });
+  });
 
   // ленты тянутся мышью с инерцией
   document.querySelectorAll('.rail').forEach(function(rail){
