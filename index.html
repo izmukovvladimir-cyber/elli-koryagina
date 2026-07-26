@@ -72,7 +72,9 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
   overflow:hidden;
 }
 .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(24px,5vw,80px);align-items:center}
-.hero h1{font-size:clamp(38px,6.1vw,80px);margin:0 0 26px}
+/* кегль подобран под ДОСЛОВНУЮ шапку клиента (она длиннее слогана), чтобы первый экран
+   вмещал заголовок, лид и кнопку целиком */
+.hero h1{font-size:clamp(30px,3.9vw,52px);line-height:1.12;margin:0 0 22px}
 .hero .lead{max-width:34ch}
 .hero-note{font-size:14px;color:var(--mute);letter-spacing:.02em;margin-top:18px}
 .hero-figure{position:relative}
@@ -380,8 +382,8 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
   <div class="wrap hero-grid">
     <div>
       <p class="kicker">Екатерина Корягина · квантовый психотерапевт</p>
-      <h1>Снаружи всё хорошо.<br>Внутри звенящая пустота.</h1>
-      <p class="lead">ЭЛЬЛИ, карманный AI-тренажёр для подсознания прямо в Telegram. Находит установку, которая держит твой сценарий, снимает телесный зажим и возвращает энергию. За 15 минут.</p>
+      <h1>Снаружи вроде бы всё нормально.<br>Всё окей. Даже вроде бы всё хорошо.</h1>
+      <p class="lead">А внутри звенящее напряжение и пустота. ЭЛЬЛИ это твой карманный AI тренажёр для подсознания прямо в Telegram. Она находит установку, которая держит твой сценарий, снимает телесный зажим и возвращает тебе энергию, которую ты годами сливала на подавление страха. За 15 минут.</p>
       <div class="cta-row">
         <a class="btn" href="https://t.me/ai_coachs_bot?start=stat" target="_blank" rel="noopener">Открыть Эльли</a>
       </div>
@@ -389,7 +391,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
       <div class="scroll-hint"><span></span>История ниже</div>
     </div>
     <figure class="hero-figure">
-      <img src="img/katya_hero.jpg" alt="Екатерина Корягина" fetchpriority="high">
+      <img src="img/katya_hero_v2.jpg" alt="Екатерина Корягина" fetchpriority="high">
       <figcaption></figcaption>
     </figure>
   </div>
@@ -399,10 +401,8 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
 
 <section>
   <div class="read rv">
-    <p class="first lead">Снаружи вроде бы всё нормально. Всё окей. Даже вроде бы всё хорошо.</p>
-    <p>А внутри звенящее напряжение и пустота.</p>
-<p>То звенит тревога. То звенит непонятное напряжение. То где-то в теле тяжесть, боль, зажим.</p>
-<p>Это значит одно: у тебя есть бессознательные ограничения и непрожитые эмоции. Они работают заслонкой на отток твоей энергии, не пропускают её. И эта энергия не даёт тебе двигаться и развиваться дальше.</p>
+    <p class="first lead">То звенит тревога. То звенит непонятное напряжение. То где-то в теле тяжесть, боль, зажим.</p>
+    <p>Это значит одно: у тебя есть бессознательные ограничения и непрожитые эмоции. Они работают заслонкой на отток твоей энергии, не пропускают её. И эта энергия не даёт тебе двигаться и развиваться дальше.</p>
 <p>Ты бессознательно, не замечая этого, всё больше соглашаешься на меньшее. Забываешь о своих мечтах. Мечты, цели, желания остаются где-то очень далеко. А ты застреваешь на уровне, который вроде бы и так нормально.</p>
     <p class="qmark">Знакомо?</p>
   </div>
@@ -427,7 +427,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
 
 <section class="panel">
   <div class="wrap author-grid rv">
-    <figure class="author-figure"><img src="img/katya_author.jpg" alt="Екатерина Корягина" loading="lazy"></figure>
+    <figure class="author-figure"><img src="img/katya_author_v2.jpg" alt="Екатерина Корягина" loading="lazy"></figure>
     <div>
       <p class="eyebrow">Автор</p>
       <h2>Екатерина Корягина</h2>
@@ -749,6 +749,8 @@ document.addEventListener('DOMContentLoaded',function(){
   var prog=document.querySelector('.prog');
   var figure=document.querySelector('.hero-figure');
   var calm=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var wide=window.matchMedia('(min-width:901px)');
+  wide.addEventListener('change',function(){ if(figure && !wide.matches) figure.style.transform=''; });
 
   function onScroll(){
     var y=window.scrollY, h=hero.offsetHeight;
@@ -759,8 +761,10 @@ document.addEventListener('DOMContentLoaded',function(){
     var max=doc.scrollHeight-window.innerHeight;
     if(prog) prog.style.width=(max>0 ? (y/max)*100 : 0)+'%';
 
-    // портрет едет медленнее текста, пока первый экран в кадре
-    if(figure && !calm && y<h*1.2) figure.style.transform='translateY('+(y*0.14)+'px)';
+    // портрет едет медленнее текста, пока первый экран в кадре.
+    // ТОЛЬКО на широком экране: на телефоне и во встроенном браузере Телеграма портрет
+    // наезжал на заголовок, там колонки стоят друг под другом (правка 2026-07-26)
+    if(figure && !calm && wide.matches && y<h*1.2) figure.style.transform='translateY('+(y*0.14)+'px)';
   }
   window.addEventListener('scroll',onScroll,{passive:true});
   onScroll();
