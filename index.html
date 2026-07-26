@@ -43,16 +43,24 @@ a{color:inherit}
   --gold:#c9a24a; --gold-lt:#f2dca6; --cream:#ece5da; --mute:#8b8377;
   --ink:#0c0c0e; --line:rgba(201,162,74,.22);
   --wrap:1180px; --read:720px;
+  /* Заголовки набраны шрифтом с сайта Кати: в её теме он спрятан под именем Showshrift,
+     весом 700 там стоит Anticva. Файл лежит у нас, чтобы страница не зависела от Тильды. */
+  --serif:'Anticva','Playfair Display',Georgia,serif;
+}
+@font-face{
+  font-family:'Anticva';
+  src:url('fonts/anticva-regular.woff') format('woff');
+  font-weight:400;font-style:normal;font-display:swap;
 }
 
 .wrap{width:min(100% - 44px,var(--wrap));margin-inline:auto}
 .read{width:min(100% - 44px,var(--read));margin-inline:auto}
 
 h1,h2,h3,.disp{
-  font-family:'Playfair Display',Georgia,serif;font-weight:400;
+  font-family:var(--serif);font-weight:400;
   letter-spacing:-.015em;line-height:1.08;margin:0;
 }
-h2{font-size:clamp(30px,4.4vw,52px);line-height:1.12}
+h2{font-size:clamp(30px,4.4vw,52px);line-height:1.17}
 h3{font-size:clamp(21px,2.2vw,26px);line-height:1.25}
 p{margin:0 0 1.35em}
 strong,b{font-weight:600}
@@ -87,6 +95,10 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 /* кегль подобран под ДОСЛОВНУЮ шапку клиента (она длиннее слогана), чтобы первый экран
    вмещал заголовок, лид и кнопку целиком */
 .hero h1{font-size:clamp(30px,3.9vw,52px);line-height:1.12;margin:0 0 22px}
+/* у ёлочек в Anticva широкие боковые поля, из-за них слово в кавычках
+   разъезжается и точка после кавычки отлетает. Поджимаем сами кавычки */
+.q{margin:0 -.16em;letter-spacing:0}
+.q2{margin-right:-.3em}
 .hero .lead{max-width:34ch}
 .hero-note{font-size:14px;color:var(--mute);letter-spacing:.02em;margin-top:18px}
 .hero-figure{position:relative}
@@ -136,16 +148,16 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 /* ---------- longread ---------- */
 .read p{color:#ded7cb}
 .read .first::first-letter{
-  font-family:'Playfair Display',serif;float:left;font-size:76px;line-height:.82;
+  font-family:var(--serif);float:left;font-size:76px;line-height:.82;
   padding:6px 14px 0 0;color:var(--gold)
 }
 .qmark{
-  font-family:'Playfair Display',serif;font-size:clamp(34px,5vw,58px);color:var(--gold-lt);
+  font-family:var(--serif);font-size:clamp(34px,5vw,58px);color:var(--gold-lt);
   text-align:center;margin:14px 0 0
 }
 .pull{
   margin:clamp(44px,6vw,72px) auto;text-align:center;max-width:24ch;
-  font-family:'Playfair Display',serif;font-size:clamp(28px,3.6vw,44px);line-height:1.2;color:#f7f1e6
+  font-family:var(--serif);font-size:clamp(28px,3.6vw,44px);line-height:1.2;color:#f7f1e6
 }
 .pull::before,.pull::after{
   content:'';display:block;width:64px;height:1px;margin:26px auto;
@@ -158,7 +170,7 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 }
 .loops li::before{
   counter-increment:l;content:counter(l,decimal-leading-zero);
-  position:absolute;left:0;top:22px;font-family:'Playfair Display',serif;font-size:20px;color:var(--gold)
+  position:absolute;left:0;top:22px;font-family:var(--serif);font-size:20px;color:var(--gold)
 }
 
 /* ---------- author ---------- */
@@ -187,7 +199,7 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
   display:grid;grid-template-columns:96px 1fr;gap:clamp(16px,3vw,40px);
   padding:34px 0;border-bottom:1px solid rgba(255,255,255,.08);align-items:start
 }
-.step-n{font-family:'Playfair Display',serif;font-size:44px;color:var(--gold);line-height:1}
+.step-n{font-family:var(--serif);font-size:44px;color:var(--gold);line-height:1}
 .step h3{margin-bottom:10px}
 .step p{margin:0;color:#cdc6bb;font-size:17.5px}
 
@@ -242,7 +254,7 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 .story-niche{margin:0;font-size:13px;color:var(--mute);line-height:1.4}
 .story-handle{margin:3px 0 0;font-size:12.5px;color:rgba(242,220,166,.75);letter-spacing:.04em}
 .story-sum{
-  font-family:'Playfair Display',serif;font-size:30px;color:var(--gold-lt);margin:0 0 24px;
+  font-family:var(--serif);font-size:30px;color:var(--gold-lt);margin:0 0 24px;
   letter-spacing:.01em
 }
 .story-lbl{
@@ -279,7 +291,7 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 
 /* ---------- price ---------- */
 .price-hero{
-  font-family:'Playfair Display',serif;font-size:clamp(26px,3.4vw,40px);line-height:1.25;
+  font-family:var(--serif);font-size:clamp(26px,3.4vw,40px);line-height:1.25;
   color:#f7f1e6;margin:0 0 34px
 }
 .price-hero em{font-style:normal;color:var(--gold-lt)}
@@ -294,7 +306,7 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 .final h2{margin-bottom:30px}
 .final .read p{color:#ded7cb}
 .sign{
-  font-family:'Playfair Display',serif;font-size:clamp(22px,2.6vw,30px);color:#f7f1e6;
+  font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);color:#f7f1e6;
   margin-top:40px;line-height:1.4
 }
 
@@ -309,7 +321,7 @@ section{position:relative;padding:clamp(76px,10vw,140px) 0}
 /* ---------- footer ---------- */
 footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(--mute);font-size:14px}
 .foot-grid{display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;align-items:baseline}
-.foot-name{font-family:'Playfair Display',serif;font-size:20px;color:var(--cream)}
+.foot-name{font-family:var(--serif);font-size:20px;color:var(--cream)}
 
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.3,1)}
@@ -418,7 +430,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
   <div class="wrap hero-grid">
     <div>
       <p class="kicker">Екатерина Корягина · квантовый психотерапевт</p>
-      <h1>Ты всё сделала «правильно».<br>А внутри звенит тревога и пустота.</h1>
+      <h1>Ты всё сделала <span class="q">«</span>правильно<span class="q q2">»</span>.<br>А внутри звенит тревога и пустота.</h1>
       <p class="lead">Знакомое напряжение, которое не объяснить. ЭЛЬЛИ это твой карманный AI тренажёр для подсознания прямо в Telegram. Она находит установку, которая держит твой сценарий, снимает телесный зажим и возвращает тебе энергию, которую ты годами сливала на подавление страха. За 15 минут.</p>
       <div class="cta-row">
         <a class="btn" href="https://t.me/ai_coachs_bot?start=stat" target="_blank" rel="noopener">Открыть Эльли</a>
