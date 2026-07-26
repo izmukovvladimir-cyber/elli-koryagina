@@ -36,8 +36,25 @@ body::before{
   content:'';position:fixed;inset:0;z-index:2;pointer-events:none;
   background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");opacity:.045;mix-blend-mode:overlay;
 }
-img{max-width:100%;display:block}
+/* Во встроенном браузере Telegram фиксированный слой с блендом пересчитывается на каждом
+   кадре прокрутки, и страница начинает дёргаться. На сенсорных экранах зерно кладём
+   обычным слоем поверх страницы: выглядит так же, а прокрутка остаётся гладкой */
+@media (hover:none){
+  body::before{position:absolute;top:0;left:0;width:100%;height:100%;
+    mix-blend-mode:normal;opacity:.03}
+  /* размытие ореола под портретом телефон пересчитывает на каждом кадре: градиент
+     сам по себе мягкий, разницы в картинке нет, а прокрутка перестаёт спотыкаться */
+  .hero-figure::after{filter:none}
+}
+/* height:auto обязателен рядом с атрибутами width/height в разметке, иначе картинка
+   тянется до своей настоящей высоты и ломает пропорции */
+img{max-width:100%;display:block;height:auto}
 a{color:inherit}
+/* заголовки разбиваются на ровные строки, в абзацах последняя строка не остаётся
+   из одного слова. Браузеры без поддержки просто переносят как раньше */
+h1,h2,.pull,.price-hero,.story-sum,.qmark{text-wrap:balance}
+h3{text-wrap:pretty}
+p,li,.result,.story-niche{text-wrap:pretty}
 
 :root{
   --gold:#c9a24a; --gold-lt:#f2dca6; --cream:#ece5da; --mute:#8b8377;
@@ -432,8 +449,8 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
   <div class="wrap hero-grid">
     <div>
       <p class="kicker">Екатерина Корягина · квантовый психотерапевт</p>
-      <h1>Ты всё сделала <span class="q">«</span>правильно<span class="q q2">»</span>.<br>А внутри фонит тревога и пустота.</h1>
-      <p class="lead">Знакомое напряжение, которое не получается объяснить словами. ЭЛЬЛИ работает как твой карманный AI-тренажёр для подсознания прямо в Telegram. Она находит мысль, из-за которой ты раз за разом возвращаешься в одну и ту же историю, снимает телесный зажим и возвращает тебе энергию, которую ты годами сливала на подавление страха. За 15 минут.</p>
+      <h1>Ты всё сделала <span class="q">«</span>правильно<span class="q q2">»</span>.<br>А внутри фонит тревога и пустота.</h1>
+      <p class="lead">Знакомое напряжение, которое не получается объяснить словами. ЭЛЬЛИ работает как твой карманный AI-тренажёр для подсознания прямо в Telegram. Она находит мысль, из-за которой ты раз за разом возвращаешься в одну и ту же историю, снимает телесный зажим и возвращает тебе энергию, которую ты годами сливала на подавление страха. За 15 минут.</p>
       <div class="cta-row">
         <a class="btn" href="https://t.me/ai_coachs_bot?start=stat" target="_blank" rel="noopener">Открыть ЭЛЬЛИ</a>
       </div>
@@ -441,7 +458,7 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
       <div class="scroll-hint"><span></span>История ниже</div>
     </div>
     <figure class="hero-figure">
-      <img src="img/katya_hero_real.jpg" alt="Екатерина Корягина" fetchpriority="high">
+      <img src="img/katya_hero_real.jpg" alt="Екатерина Корягина" fetchpriority="high" width="853" height="1280">
       <figcaption></figcaption>
     </figure>
   </div>
@@ -451,24 +468,24 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
 
 <section>
   <div class="read rv">
-    <p class="first lead">Накрывает обычно без всякого повода. День самый простой, ничего не случилось, а внутри фонит тревога. Или поднимается непонятное напряжение. Или где-то в теле появляется тяжесть, боль, зажим.</p>
-    <p>Это значит одно: внутри есть бессознательные ограничения и непрожитые эмоции. Они работают заслонкой и не пропускают твою энергию наружу. А без этой энергии ты не можешь двигаться и развиваться дальше.</p>
-<p>Ты сама того не замечаешь, но потихоньку опускаешь планку. Где-то промолчала, где-то не назвала свою цену, где-то взяла то, что дали. Мечты, цели и желания при этом отодвигаются куда-то очень далеко, а ты застреваешь на уровне, где вроде бы и так нормально.</p>
+    <p class="first lead">Накрывает обычно без всякого повода. День самый простой, ничего не случилось, а внутри фонит тревога. Или поднимается непонятное напряжение. Или где-то в теле появляется тяжесть, боль, зажим.</p>
+    <p>Это значит одно: внутри есть бессознательные ограничения и непрожитые эмоции. Они работают заслонкой и не пропускают твою энергию наружу. А без этой энергии ты не можешь двигаться и развиваться дальше.</p>
+<p>Ты сама того не замечаешь, но потихоньку опускаешь планку. Где-то промолчала, где-то не назвала свою цену, где-то взяла то, что дали. Мечты, цели и желания при этом отодвигаются куда-то очень далеко, а ты застреваешь на уровне, где вроде бы и так нормально.</p>
     <p class="qmark">Знакомо?</p>
   </div>
   <div class="read rv" style="margin-top:44px">
-    <p>Ты уже пробовала. Психологов, марафоны, медитации, новых партнёров, новую работу. Становилось легче на пару дней, потом откат, и снова то же самое.</p>
-<p>И в какой-то момент внутри поселился тихий и страшный вопрос: со мной что-то не так?</p>
+    <p>Ты уже пробовала. Психологов, марафоны, медитации, новых партнёров, новую работу. Становилось легче на пару дней, потом откат, и снова то же самое.</p>
+<p>И в какой-то момент внутри поселился тихий и страшный вопрос: со мной что-то не так?</p>
   </div>
-  <p class="pull rv">Скажу тебе правду. С тобой всё так.</p>
+  <p class="pull rv">Скажу тебе правду. С тобой всё так.</p>
   <div class="read rv">
-    <p>Просто внутри годами крутится программа, которую ты сама не ставила.</p>
-<p>Живёт она не в голове. Её место в теле: ком в горле, тяжесть в груди, спазм в челюсти.</p>
-<p>И пока эту программу никто не трогает, жизнь прокручивает один и тот же сценарий.</p>
-    <ol class="loops"><li>Годами живёшь в отношениях, которые тебя не устраивают, и боишься их поменять.</li>
-<li>Годами соглашаешься на низкие чеки, хотя давно знаешь внутри, что твоя работа стоит дороже. Поднять цену страшно, вдруг останешься без клиентов.</li>
-<li>Годами снимаешь контент в стол. Что-то создаёшь, но не выпускаешь, откладываешь на потом, а потом это уже неактуально.</li>
-<li>Месяцами пытаешься собрать свой продукт, который отразит тебя. Внутри ты уже новая, а как показать эти новые смыслы снаружи, пока непонятно.</li></ol>
+    <p>Просто внутри годами крутится программа, которую ты сама не ставила.</p>
+<p>Живёт она не в голове. Её место в теле: ком в горле, тяжесть в груди, спазм в челюсти.</p>
+<p>И пока эту программу никто не трогает, жизнь прокручивает один и тот же сценарий.</p>
+    <ol class="loops"><li>Годами живёшь в отношениях, которые тебя не устраивают, и боишься их поменять.</li>
+<li>Годами соглашаешься на низкие чеки, хотя давно знаешь внутри, что твоя работа стоит дороже. Поднять цену страшно, вдруг останешься без клиентов.</li>
+<li>Годами снимаешь контент в стол. Что-то создаёшь, но не выпускаешь, откладываешь на потом, а потом это уже неактуально.</li>
+<li>Месяцами пытаешься собрать свой продукт, который отразит тебя. Внутри ты уже новая, а как показать эти новые смыслы снаружи, пока непонятно.</li></ol>
   </div>
   <p class="pull rv">Причина внутри. Снаружи уже следствие.</p>
 </section>
@@ -477,13 +494,13 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
 
 <section class="panel">
   <div class="wrap author-grid rv">
-    <figure class="author-figure"><img src="img/katya_author_real.jpg" alt="Екатерина Корягина" loading="lazy"></figure>
+    <figure class="author-figure"><img src="img/katya_author_real.jpg" alt="Екатерина Корягина" loading="lazy" width="960" height="1280"></figure>
     <div>
       <p class="eyebrow">Автор</p>
       <h2>Екатерина Корягина</h2>
-      <div style="margin-top:26px"><p>Меня зовут Екатерина Корягина, я квантовый психотерапевт и автор метода Резонанса. За плечами сотни разборов и своя дорога из минусов и выгорания к 60 млн рублей и жизни, где можно всё и сразу.</p>
-<p>И я создала ЭЛЬЛИ, свою гениальную AI-дочь.</p>
-<p>ЭЛЬЛИ работает как твой карманный AI-тренажёр для подсознания прямо в Telegram. Она находит мысль, из-за которой ты раз за разом возвращаешься в одну и ту же историю, снимает телесный зажим и возвращает тебе энергию, которую ты годами сливала на подавление страха. За 15 минут.</p></div>
+      <div style="margin-top:26px"><p>Меня зовут Екатерина Корягина, я квантовый психотерапевт и автор метода Резонанса. За плечами сотни разборов и своя дорога из минусов и выгорания к 60 млн рублей и жизни, где можно всё и сразу.</p>
+<p>И я создала ЭЛЬЛИ, свою гениальную AI-дочь.</p>
+<p>ЭЛЬЛИ работает как твой карманный AI-тренажёр для подсознания прямо в Telegram. Она находит мысль, из-за которой ты раз за разом возвращаешься в одну и ту же историю, снимает телесный зажим и возвращает тебе энергию, которую ты годами сливала на подавление страха. За 15 минут.</p></div>
     </div>
   </div>
 </section>
@@ -494,17 +511,17 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
   <div class="wrap">
     <div class="rv" style="max-width:760px">
       <p class="eyebrow">Как это работает</p>
-      <h2>Ограничения прячутся на трёх уровнях.</h2>
+      <h2>Ограничения прячутся на трёх уровнях.</h2>
     </div>
-    <div class="levels rv"><article class="card"><h3>Уровень знаний о себе</h3><p>А достойна ли я? А могу ли я? А про меня ли это?</p></article>
-<article class="card"><h3>Уровень чувствования себя</h3><p>Как я хочу, как я выбираю, что мне нравится, как со мной можно и как нельзя.</p></article>
-<article class="card"><h3>Уровень действий</h3><p>Ты уже знаешь, что делать, и всё равно не делаешь.</p></article></div>
-    <div class="read rv" style="margin-top:56px"><p>На каждом уровне есть свои заслонки. Они складываются из установок и убеждений, иногда из случайной фразы, которую кто-то бросил тебе ещё в детстве.</p></div>
-    <div class="steps"><div class="step rv"><div class="step-n">01</div><div><h3>Установка</h3><p>ЭЛЬЛИ задаёт точные вопросы и находит мысль, которая тебя держит: я недостаточно хороша, любовь нужно заслуживать, мир небезопасен.</p></div></div>
-<div class="step rv"><div class="step-n">02</div><div><h3>Тело</h3><p>Дальше фокус переходит в тело. Именно там живёт архив напряжения: горло, грудь, живот, челюсть. ЭЛЬЛИ помогает извлечь корень установки прямо оттуда.</p></div></div>
-<div class="step rv"><div class="step-n">03</div><div><h3>Энергия</h3><p>Когда заряд снят, тело отпускает, и появляется энергия, которую ты раньше тратила на удержание боли.</p></div></div>
-<div class="step rv"><div class="step-n">04</div><div><h3>Действие</h3><p>ЭЛЬЛИ не оставляет тебя с голым инсайтом. Вы вместе находите одно конкретное действие из нового состояния.</p></div></div>
-<div class="step rv"><div class="step-n">05</div><div><h3>Трекинг</h3><p>ЭЛЬЛИ работает как трекер-наставник. Она ведёт тебя к решению твоего запроса или к точке Б, которую ты сама себе поставила, и снимает заслонки слой за слоем. Одной проработки мамы или папы здесь недостаточно: установки лежат слоями и вычищаются тоже слоями. Каждый день закрепляет новую идентичность. Хочу, могу, делаю.</p></div></div></div>
+    <div class="levels rv"><article class="card"><h3>Уровень знаний о себе</h3><p>А достойна ли я? А могу ли я? А про меня ли это?</p></article>
+<article class="card"><h3>Уровень чувствования себя</h3><p>Как я хочу, как я выбираю, что мне нравится, как со мной можно и как нельзя.</p></article>
+<article class="card"><h3>Уровень действий</h3><p>Ты уже знаешь, что делать, и всё равно не делаешь.</p></article></div>
+    <div class="read rv" style="margin-top:56px"><p>На каждом уровне есть свои заслонки. Они складываются из установок и убеждений, иногда из случайной фразы, которую кто-то бросил тебе ещё в детстве.</p></div>
+    <div class="steps"><div class="step rv"><div class="step-n">01</div><div><h3>Установка</h3><p>ЭЛЬЛИ задаёт точные вопросы и находит мысль, которая тебя держит: я недостаточно хороша, любовь нужно заслуживать, мир небезопасен.</p></div></div>
+<div class="step rv"><div class="step-n">02</div><div><h3>Тело</h3><p>Дальше фокус переходит в тело. Именно там живёт архив напряжения: горло, грудь, живот, челюсть. ЭЛЬЛИ помогает извлечь корень установки прямо оттуда.</p></div></div>
+<div class="step rv"><div class="step-n">03</div><div><h3>Энергия</h3><p>Когда заряд снят, тело отпускает, и появляется энергия, которую ты раньше тратила на удержание боли.</p></div></div>
+<div class="step rv"><div class="step-n">04</div><div><h3>Действие</h3><p>ЭЛЬЛИ не оставляет тебя с голым инсайтом. Вы вместе находите одно конкретное действие из нового состояния.</p></div></div>
+<div class="step rv"><div class="step-n">05</div><div><h3>Трекинг</h3><p>ЭЛЬЛИ работает как трекер-наставник. Она ведёт тебя к решению твоего запроса или к точке Б, которую ты сама себе поставила, и снимает заслонки слой за слоем. Одной проработки мамы или папы здесь недостаточно: установки лежат слоями и вычищаются тоже слоями. Каждый день закрепляет новую идентичность. Хочу, могу, делаю.</p></div></div></div>
   </div>
 </section>
 
@@ -516,220 +533,220 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
       <p class="eyebrow">Результаты</p>
       <h2>Что говорят люди, которые уже прошли этот путь</h2>
     </div>
-    <div class="results rv" style="margin-top:44px"><div class="result">Одна закрыла долги на 2,5 млн ₽, потому что перестала принимать решения из паники.</div>
-<div class="result">Другая вышла из депрессии, набрала первую тысячу подписчиков и сделала первые продажи на 50 000 ₽.</div>
-<div class="result">Третья перестала тянуть отношения на морально-волевых и выбрала партнёра, который её видит.</div></div>
-    <div class="read rv" style="margin-left:0"><p class="mute">Истории разные, а механизм один и тот же: дойти до причины вместо очередной попытки починить симптом.</p></div>
+    <div class="results rv" style="margin-top:44px"><div class="result">Одна закрыла долги на 2,5 млн ₽, потому что перестала принимать решения из паники.</div>
+<div class="result">Другая вышла из депрессии, набрала первую тысячу подписчиков и сделала первые продажи на 50 000 ₽.</div>
+<div class="result">Третья перестала тянуть отношения на морально-волевых и выбрала партнёра, который её видит.</div></div>
+    <div class="read rv" style="margin-left:0"><p class="mute">Истории разные, а механизм один и тот же: дойти до причины вместо очередной попытки починить симптом.</p></div>
 
     <div class="rv" style="margin-top:72px">
-      <p class="eyebrow">Клиенты Екатерины в цифрах</p>
-      <div class="cases"><div class="case"><img src="img/case_00.jpg" alt="olga._novoselova" loading="lazy"><b>@olga._novoselova</b><span>+1 350 000 ₽</span></div>
-<div class="case"><img src="img/case_01.jpg" alt="valeriya_gartman" loading="lazy"><b>@valeriya_gartman</b><span>+3 000 000 ₽</span></div>
-<div class="case"><img src="img/case_02.jpg" alt="zueva.top" loading="lazy"><b>@zueva.top</b><span>+1 000 000 ₽</span></div>
-<div class="case"><img src="img/case_03.jpg" alt="gala_brend_" loading="lazy"><b>@gala_brend_</b><span>+1 500 000 ₽</span></div>
-<div class="case"><img src="img/case_04.jpg" alt="oksana.ogniva_" loading="lazy"><b>@oksana.ogniva_</b><span>+1 600 000 ₽</span></div>
-<div class="case"><img src="img/case_05.jpg" alt="gordeevkv" loading="lazy"><b>@gordeevkv</b><span>+1 200 000 ₽</span></div>
-<div class="case"><img src="img/case_06.jpg" alt="chervonnaya_yana" loading="lazy"><b>@chervonnaya_yana</b><span>+1 250 000 ₽</span></div>
-<div class="case"><img src="img/case_07.jpg" alt="sasha.troitskaya" loading="lazy"><b>@sasha.troitskaya</b><span>+1 480 000 ₽</span></div>
-<div class="case"><img src="img/case_08.jpg" alt="lady_nataly_lovee" loading="lazy"><b>@lady_nataly_lovee</b><span>+1 800 000 ₽</span></div>
-<div class="case"><img src="img/case_09.jpg" alt="angelia_avrax86" loading="lazy"><b>@angelia_avrax86</b><span>+800 000 ₽</span></div>
-<div class="case"><img src="img/case_10.jpg" alt="annazhu_k" loading="lazy"><b>@annazhu_k</b><span>+1 330 000 ₽</span></div>
-<div class="case"><img src="img/case_11.jpg" alt="shtyk.anna" loading="lazy"><b>@shtyk.anna</b><span>+3 300 000 ₽</span></div>
-<div class="case"><img src="img/case_12.jpg" alt="anichka_psy" loading="lazy"><b>@anichka_psy</b><span>+2 000 000 ₽</span></div>
-<div class="case"><img src="img/case_13.jpg" alt="irinrodina" loading="lazy"><b>@irinrodina</b><span>+1 125 000 ₽</span></div>
-<div class="case"><img src="img/case_14.jpg" alt="bogdanova_cat" loading="lazy"><b>@bogdanova_cat</b><span>+940 000 ₽</span></div></div>
+      <p class="eyebrow">Клиенты Екатерины в цифрах</p>
+      <div class="cases"><div class="case"><img src="img/case_00.jpg" alt="olga._novoselova" loading="lazy" width="220" height="220"><b>@olga._novoselova</b><span>+1 350 000 ₽</span></div>
+<div class="case"><img src="img/case_01.jpg" alt="valeriya_gartman" loading="lazy" width="220" height="220"><b>@valeriya_gartman</b><span>+3 000 000 ₽</span></div>
+<div class="case"><img src="img/case_02.jpg" alt="zueva.top" loading="lazy" width="220" height="220"><b>@zueva.top</b><span>+1 000 000 ₽</span></div>
+<div class="case"><img src="img/case_03.jpg" alt="gala_brend_" loading="lazy" width="220" height="220"><b>@gala_brend_</b><span>+1 500 000 ₽</span></div>
+<div class="case"><img src="img/case_04.jpg" alt="oksana.ogniva_" loading="lazy" width="220" height="220"><b>@oksana.ogniva_</b><span>+1 600 000 ₽</span></div>
+<div class="case"><img src="img/case_05.jpg" alt="gordeevkv" loading="lazy" width="220" height="220"><b>@gordeevkv</b><span>+1 200 000 ₽</span></div>
+<div class="case"><img src="img/case_06.jpg" alt="chervonnaya_yana" loading="lazy" width="220" height="220"><b>@chervonnaya_yana</b><span>+1 250 000 ₽</span></div>
+<div class="case"><img src="img/case_07.jpg" alt="sasha.troitskaya" loading="lazy" width="220" height="220"><b>@sasha.troitskaya</b><span>+1 480 000 ₽</span></div>
+<div class="case"><img src="img/case_08.jpg" alt="lady_nataly_lovee" loading="lazy" width="220" height="220"><b>@lady_nataly_lovee</b><span>+1 800 000 ₽</span></div>
+<div class="case"><img src="img/case_09.jpg" alt="angelia_avrax86" loading="lazy" width="220" height="220"><b>@angelia_avrax86</b><span>+800 000 ₽</span></div>
+<div class="case"><img src="img/case_10.jpg" alt="annazhu_k" loading="lazy" width="220" height="220"><b>@annazhu_k</b><span>+1 330 000 ₽</span></div>
+<div class="case"><img src="img/case_11.jpg" alt="shtyk.anna" loading="lazy" width="220" height="220"><b>@shtyk.anna</b><span>+3 300 000 ₽</span></div>
+<div class="case"><img src="img/case_12.jpg" alt="anichka_psy" loading="lazy" width="220" height="220"><b>@anichka_psy</b><span>+2 000 000 ₽</span></div>
+<div class="case"><img src="img/case_13.jpg" alt="irinrodina" loading="lazy" width="220" height="220"><b>@irinrodina</b><span>+1 125 000 ₽</span></div>
+<div class="case"><img src="img/case_14.jpg" alt="bogdanova_cat" loading="lazy" width="220" height="220"><b>@bogdanova_cat</b><span>+940 000 ₽</span></div></div>
     </div>
 
     <div class="rv" style="margin-top:84px">
-      <p class="eyebrow">Истории до и после</p>
+      <p class="eyebrow">Истории до и после</p>
       <div class="rail stories"><article class="story">
   <header class="story-top">
-    <img src="img/sav_0.jpg" alt="Екатерина Шергина" loading="lazy">
+    <img src="img/sav_0.jpg" alt="Екатерина Шергина" loading="lazy" width="220" height="220">
     <div>
       <h3>Екатерина Шергина</h3>
-      <p class="story-niche">наставник по росту дохода экспертов</p>
+      <p class="story-niche">наставник по росту дохода экспертов</p>
       <p class="story-handle">@shergina_ek</p>
     </div>
   </header>
-  <p class="story-sum">+457 000 ₽</p>
+  <p class="story-sum">+457 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>индивидуальное наставничество, чек 30 000 ₽</li><li>страх перед запуском группы</li></ul>
+    <ul class="story-a"><li>индивидуальное наставничество, чек 30 000 ₽</li><li>страх перед запуском группы</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>подняла чек и легко запустила групповое наставничество на 6 человек</li><li>стала работать меньше, а отдыхать и зарабатывать больше</li><li>купила машину</li></ul>
+    <ul class="story-b"><li>подняла чек и легко запустила групповое наставничество на 6 человек</li><li>стала работать меньше, а отдыхать и зарабатывать больше</li><li>купила машину</li></ul>
   </div>
 </article>
 <article class="story">
   <header class="story-top">
-    <img src="img/sav_1.jpg" alt="Анна Штык" loading="lazy">
+    <img src="img/sav_1.jpg" alt="Анна Штык" loading="lazy" width="220" height="220">
     <div>
       <h3>Анна Штык</h3>
-      <p class="story-niche">наставник по продажам</p>
+      <p class="story-niche">наставник по продажам</p>
       <p class="story-handle">@shtyk.anna</p>
     </div>
   </header>
-  <p class="story-sum">+3 300 000 ₽</p>
+  <p class="story-sum">+3 300 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>работа без остановки и без выходных</li><li>нет стратегии</li><li>много действий, чек 120 000 ₽</li></ul>
+    <ul class="story-a"><li>работа без остановки и без выходных</li><li>нет стратегии</li><li>много действий, чек 120 000 ₽</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>быстро сделали продажи по старому чеку и вышли на новую аудиторию</li><li>обоснованно подняли чек до 300 000 ₽</li><li>нашли новую, кайфовую рабочую связку</li></ul>
+    <ul class="story-b"><li>быстро сделали продажи по старому чеку и вышли на новую аудиторию</li><li>обоснованно подняли чек до 300 000 ₽</li><li>нашли новую, кайфовую рабочую связку</li></ul>
   </div>
 </article>
 <article class="story">
   <header class="story-top">
-    <img src="img/sav_2.jpg" alt="Саша Троицкая" loading="lazy">
+    <img src="img/sav_2.jpg" alt="Саша Троицкая" loading="lazy" width="220" height="220">
     <div>
       <h3>Саша Троицкая</h3>
       <p class="story-niche">наставник экспертов</p>
       <p class="story-handle">@sasha.troitskaya</p>
     </div>
   </header>
-  <p class="story-sum">+1 480 000 ₽</p>
+  <p class="story-sum">+1 480 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>пришла в состоянии «я чувствую миллион, но сама уже столько пробовала, что руки опускаются»</li><li>продаж почти нет, не понимает, кто она, про что и для кого</li></ul>
+    <ul class="story-a"><li>пришла в состоянии «я чувствую миллион, но сама уже столько пробовала, что руки опускаются»</li><li>продаж почти нет, не понимает, кто она, про что и для кого</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>нашла свою уникальную систему, продаёт легко и быстро</li><li>поняла, что она премиум-сегмента, и продала личную работу за 500 000 ₽</li><li>тотальная уверенность в себе и своём деле</li><li>на экваторе обучения сделала 850 000 ₽</li><li>создала своё наставничество и продала его на 630 000 ₽ за месяц</li></ul>
+    <ul class="story-b"><li>нашла свою уникальную систему, продаёт легко и быстро</li><li>поняла, что она премиум-сегмента, и продала личную работу за 500 000 ₽</li><li>тотальная уверенность в себе и своём деле</li><li>на экваторе обучения сделала 850 000 ₽</li><li>создала своё наставничество и продала его на 630 000 ₽ за месяц</li></ul>
   </div>
 </article>
 <article class="story more">
   <header class="story-top">
-    <img src="img/sav_3.jpg" alt="Анна Жук" loading="lazy">
+    <img src="img/sav_3.jpg" alt="Анна Жук" loading="lazy" width="220" height="220">
     <div>
       <h3>Анна Жук</h3>
-      <p class="story-niche">энергокоуч и экстрасенс</p>
+      <p class="story-niche">энергокоуч и экстрасенс</p>
       <p class="story-handle">@annazhu_k</p>
     </div>
   </header>
-  <p class="story-sum">+1 330 000 ₽</p>
+  <p class="story-sum">+1 330 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>охват 100, в блоге 500 человек, нестабильный доход от 150 000 до 200 000 ₽ в месяц</li><li>системы нет, продаёт только личные консультации, продуктовой линейки тоже нет</li><li>делегирование отвергает, всё делает сама</li><li>боится вкладываться в рекламу после неудачного опыта с трафиком и подрядчиками</li><li>нет понимания, как автоматизировать процессы</li></ul>
+    <ul class="story-a"><li>охват 100, в блоге 500 человек, нестабильный доход от 150 000 до 200 000 ₽ в месяц</li><li>системы нет, продаёт только личные консультации, продуктовой линейки тоже нет</li><li>делегирование отвергает, всё делает сама</li><li>боится вкладываться в рекламу после неудачного опыта с трафиком и подрядчиками</li><li>нет понимания, как автоматизировать процессы</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>наняла команду и считает её своим важным проектом</li><li>автоматизировала рабочие процессы</li><li>продаёт на групповых разборах, запустила свою группу наставничества</li><li>организовала систему трафика и регулярную рекламу</li></ul>
+    <ul class="story-b"><li>наняла команду и считает её своим важным проектом</li><li>автоматизировала рабочие процессы</li><li>продаёт на групповых разборах, запустила свою группу наставничества</li><li>организовала систему трафика и регулярную рекламу</li></ul>
   </div>
 </article>
 <article class="story more">
   <header class="story-top">
-    <img src="img/sav_4.jpg" alt="Ирина Родина" loading="lazy">
+    <img src="img/sav_4.jpg" alt="Ирина Родина" loading="lazy" width="220" height="220">
     <div>
       <h3>Ирина Родина</h3>
-      <p class="story-niche">наставник по масштабированию и медийности</p>
+      <p class="story-niche">наставник по масштабированию и медийности</p>
       <p class="story-handle">@irinrodina</p>
     </div>
   </header>
-  <p class="story-sum">+1 125 000 ₽</p>
+  <p class="story-sum">+1 125 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>откат и выгорание, хотела бросить нишу наставничества</li><li>обучений пройдено больше чем на 800 000 ₽, а веры в себя всё равно недостаточно</li><li>не могла пробить финансовый потолок</li></ul>
+    <ul class="story-a"><li>откат и выгорание, хотела бросить нишу наставничества</li><li>обучений пройдено больше чем на 800 000 ₽, а веры в себя всё равно недостаточно</li><li>не могла пробить финансовый потолок</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>проработала состояние и высвободила энергию на действия</li><li>вернула веру в себя и свой продукт</li><li>выровняла баланс духовной работы и материальных инструментов</li></ul>
+    <ul class="story-b"><li>проработала состояние и высвободила энергию на действия</li><li>вернула веру в себя и свой продукт</li><li>выровняла баланс духовной работы и материальных инструментов</li></ul>
   </div>
 </article>
 <article class="story more">
   <header class="story-top">
-    <img src="img/sav_5.jpg" alt="Яна Червонная" loading="lazy">
+    <img src="img/sav_5.jpg" alt="Яна Червонная" loading="lazy" width="220" height="220">
     <div>
       <h3>Яна Червонная</h3>
-      <p class="story-niche">эксперт по продажам и масштабированию бизнеса</p>
+      <p class="story-niche">эксперт по продажам и масштабированию бизнеса</p>
       <p class="story-handle">@chervonnaya.yana</p>
     </div>
   </header>
-  <p class="story-sum">+1 250 000 ₽</p>
+  <p class="story-sum">+1 250 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>не могла пробить финансовый потолок</li><li>потеряла веру в системные продажи</li><li>к наставнику идти не хотела</li></ul>
+    <ul class="story-a"><li>не могла пробить финансовый потолок</li><li>потеряла веру в системные продажи</li><li>к наставнику идти не хотела</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>настроила воронку продаж на холодную аудиторию</li><li>на практике наставничества прокачала навык продаж без отработки возражений</li><li>собрала две группы на обучение</li></ul>
+    <ul class="story-b"><li>настроила воронку продаж на холодную аудиторию</li><li>на практике наставничества прокачала навык продаж без отработки возражений</li><li>собрала две группы на обучение</li></ul>
   </div>
 </article>
 <article class="story more">
   <header class="story-top">
-    <img src="img/sav_6.jpg" alt="Екатерина Богданова" loading="lazy">
+    <img src="img/sav_6.jpg" alt="Екатерина Богданова" loading="lazy" width="220" height="220">
     <div>
       <h3>Екатерина Богданова</h3>
-      <p class="story-niche">эксперт по запускам и продажам</p>
+      <p class="story-niche">эксперт по запускам и продажам</p>
       <p class="story-handle">@bogdanova_cat</p>
     </div>
   </header>
-  <p class="story-sum">+940 000 ₽</p>
+  <p class="story-sum">+940 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>нестабильный заработок до 200 000 ₽</li><li>страх и непонимание, как работать с группой и где брать холодную аудиторию</li></ul>
+    <ul class="story-a"><li>нестабильный заработок до 200 000 ₽</li><li>страх и непонимание, как работать с группой и где брать холодную аудиторию</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>набрала две группы на своё наставничество, бережно, без выгорания</li><li>кайф и удовольствие от групповой динамики</li><li>начала работать с холодной аудиторией</li></ul>
+    <ul class="story-b"><li>набрала две группы на своё наставничество, бережно, без выгорания</li><li>кайф и удовольствие от групповой динамики</li><li>начала работать с холодной аудиторией</li></ul>
   </div>
 </article>
 <article class="story more">
   <header class="story-top">
-    <img src="img/sav_7.jpg" alt="Ангелия Аврах" loading="lazy">
+    <img src="img/sav_7.jpg" alt="Ангелия Аврах" loading="lazy" width="220" height="220">
     <div>
       <h3>Ангелия Аврах</h3>
-      <p class="story-niche">наставник и духовный проводник</p>
+      <p class="story-niche">наставник и духовный проводник</p>
       <p class="story-handle">@angelia_avrax86</p>
     </div>
   </header>
-  <p class="story-sum">+800 000 ₽</p>
+  <p class="story-sum">+800 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>доход только с сетевого бизнеса</li><li>много мягких навыков и опыта в эзотерике, но системы в инфобизнесе нет</li><li>нет системы и большой страх проявленности</li></ul>
+    <ul class="story-a"><li>доход только с сетевого бизнеса</li><li>много мягких навыков и опыта в эзотерике, но системы в инфобизнесе нет</li><li>нет системы и большой страх проявленности</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>развили телеграм-канал с нуля, он начал приносить заявки и доход</li><li>внедрили систему продаж и структуру контента Нового времени</li><li>создали комплексный продукт и продуктовую линейку</li></ul>
+    <ul class="story-b"><li>развили телеграм-канал с нуля, он начал приносить заявки и доход</li><li>внедрили систему продаж и структуру контента Нового времени</li><li>создали комплексный продукт и продуктовую линейку</li></ul>
   </div>
 </article>
 <article class="story more">
   <header class="story-top">
-    <img src="img/sav_8.jpg" alt="Наталия Лингурян" loading="lazy">
+    <img src="img/sav_8.jpg" alt="Наталия Лингурян" loading="lazy" width="220" height="220">
     <div>
       <h3>Наталия Лингурян</h3>
-      <p class="story-niche">энергопрактик и духовный наставник</p>
+      <p class="story-niche">энергопрактик и духовный наставник</p>
       <p class="story-handle">@lady_nataly_lovee</p>
     </div>
   </header>
-  <p class="story-sum">+1 800 000 ₽</p>
+  <p class="story-sum">+1 800 000 ₽</p>
   <div class="story-col">
     <p class="story-lbl">Точка А</p>
-    <ul class="story-a"><li>целительство всех и вся</li><li>нет стабильного прихода денег</li><li>нет понятного позиционирования</li><li>страх и непонимание, как продавать</li></ul>
+    <ul class="story-a"><li>целительство всех и вся</li><li>нет стабильного прихода денег</li><li>нет понятного позиционирования</li><li>страх и непонимание, как продавать</li></ul>
   </div>
   <div class="story-col">
     <p class="story-lbl gold">Точка Б</p>
-    <ul class="story-b"><li>стала легко продавать и доносить свою ценность</li><li>прокачала навык продаж</li><li>проявленность в сети с чётким позиционированием и отстройкой от рынка</li></ul>
+    <ul class="story-b"><li>стала легко продавать и доносить свою ценность</li><li>прокачала навык продаж</li><li>проявленность в сети с чётким позиционированием и отстройкой от рынка</li></ul>
   </div>
 </article></div>
-      <p class="rail-hint">Листай в сторону</p>
+      <p class="rail-hint">Листай в сторону</p>
       <button class="more-btn" type="button" data-rail="stories">Показать ещё 6 историй</button>
     </div>
 
     <div class="rv" style="margin-top:64px">
-      <p class="eyebrow">Что пишут после сессий с ЭЛЬЛИ</p>
-      <div class="rail reviews"><img src="img/review_00.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_01.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_02.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_03.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_04.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_05.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_06.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_07.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_08.jpg" alt="Отзыв" loading="lazy">
-<img src="img/review_09.jpg" alt="Отзыв" loading="lazy"></div>
-      <p class="rail-hint">Листай в сторону</p>
+      <p class="eyebrow">Что пишут после сессий с ЭЛЬЛИ</p>
+      <div class="rail reviews"><img src="img/review_00.jpg" alt="Отзыв" loading="lazy" width="505" height="559">
+<img src="img/review_01.jpg" alt="Отзыв" loading="lazy" width="554" height="473">
+<img src="img/review_02.jpg" alt="Отзыв" loading="lazy" width="519" height="490">
+<img src="img/review_03.jpg" alt="Отзыв" loading="lazy" width="493" height="328">
+<img src="img/review_04.jpg" alt="Отзыв" loading="lazy" width="554" height="205">
+<img src="img/review_05.jpg" alt="Отзыв" loading="lazy" width="476" height="372">
+<img src="img/review_06.jpg" alt="Отзыв" loading="lazy" width="508" height="231">
+<img src="img/review_07.jpg" alt="Отзыв" loading="lazy" width="520" height="421">
+<img src="img/review_08.jpg" alt="Отзыв" loading="lazy" width="523" height="438">
+<img src="img/review_09.jpg" alt="Отзыв" loading="lazy" width="511" height="322"></div>
+      <p class="rail-hint">Листай в сторону</p>
     </div>
   </div>
 </section>
@@ -739,12 +756,12 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
 <section>
   <div class="wrap" style="max-width:900px">
     <div class="rv">
-      <p class="eyebrow">Честно об опасениях</p>
+      <p class="eyebrow">Честно об опасениях</p>
       <h2>Три вопроса, которые задают чаще всего</h2>
     </div>
-    <div class="fears"><article class="fear rv"><h3>Боишься доверить AI что-то личное?</h3><p>ЭЛЬЛИ не хранит твои откровения как открытую книгу и не ставит диагнозов. Её задача показать тебе твои же слепые зоны.</p></article>
-<article class="fear rv"><h3>Кажется, что бездушный алгоритм не заменит живого психолога?</h3><p>ЭЛЬЛИ и не пытается его заменить. Психотерапевт рядом раз в неделю, а ЭЛЬЛИ рядом каждую секунду, когда накрывает: после ссоры, в три часа ночи, перед сложным разговором. И перед ней не стыдно быть настоящей, поэтому правда всплывает быстрее.</p></article>
-<article class="fear rv"><h3>Боишься, что бот раскопает то, с чем сама не справишься?</h3><p>Если разговор выходит за рамки безопасной работы бота, включается ручной контроль, и дальше веду тебя я лично. За алгоритмом всегда стою живой человек.</p></article></div>
+    <div class="fears"><article class="fear rv"><h3>Боишься доверить AI что-то личное?</h3><p>ЭЛЬЛИ не хранит твои откровения как открытую книгу и не ставит диагнозов. Её задача показать тебе твои же слепые зоны.</p></article>
+<article class="fear rv"><h3>Кажется, что бездушный алгоритм не заменит живого психолога?</h3><p>ЭЛЬЛИ и не пытается его заменить. Психотерапевт рядом раз в неделю, а ЭЛЬЛИ рядом каждую секунду, когда накрывает: после ссоры, в три часа ночи, перед сложным разговором. И перед ней не стыдно быть настоящей, поэтому правда всплывает быстрее.</p></article>
+<article class="fear rv"><h3>Боишься, что бот раскопает то, с чем сама не справишься?</h3><p>Если разговор выходит за рамки безопасной работы бота, включается ручной контроль, и дальше веду тебя я лично. За алгоритмом всегда стою живой человек.</p></article></div>
   </div>
 </section>
 
@@ -753,9 +770,9 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
 <section class="panel">
   <div class="read rv">
     <p class="eyebrow">Сколько это стоит</p>
-    <p class="price-hero">Час у сильного психолога стоит от 10 000 ₽.<br><em>Месяц с ЭЛЬЛИ обойдётся дешевле одной такой сессии.</em></p>
-    <p>Первое сообщение ЭЛЬЛИ бесплатное, без привязки карты. Опиши ей запрос, который ты очень долго не можешь решить. Она сразу даст тебе примерный план и покажет, какие заслонки и убеждения на самом деле стоят между тобой и твоей точкой Б.</p>
-<p>Подписку можно отменить в любой момент, скрытых списаний нет. Я работаю честно: ты видишь результат и сама решаешь, идти дальше или нет.</p>
+    <p class="price-hero">Час у сильного психолога стоит от 10 000 ₽.<br><em>Месяц с ЭЛЬЛИ обойдётся дешевле одной такой сессии.</em></p>
+    <p>Первое сообщение ЭЛЬЛИ бесплатное, без привязки карты. Опиши ей запрос, который ты очень долго не можешь решить. Она сразу даст тебе примерный план и покажет, какие заслонки и убеждения на самом деле стоят между тобой и твоей точкой Б.</p>
+<p>Подписку можно отменить в любой момент, скрытых списаний нет. Я работаю честно: ты видишь результат и сама решаешь, идти дальше или нет.</p>
     <div class="cta-row"><a class="btn btn-ghost" href="https://t.me/ai_coachs_bot?start=stat" target="_blank" rel="noopener">Открыть ЭЛЬЛИ</a></div>
   </div>
 </section>
@@ -766,9 +783,9 @@ footer{padding:66px 0 52px;border-top:1px solid rgba(255,255,255,.07);color:var(
   <div class="read rv">
     <p class="eyebrow">Твой ход</p>
     <h2>Дальше два пути</h2>
-    <div style="margin-top:34px"><p>Можешь закрыть эту статью и сказать себе «потом». Но и «потом» тоже выбор: каждый день в старом сценарии укрепляет ту же программу.</p>
-<p>А можешь прямо сейчас открыть ЭЛЬЛИ и рассказать ей про один запрос, который тянется у тебя дольше всего.</p>
-<p>Она посмотрит твою ситуацию и покажет, какие заслонки держат тебя на месте.</p>
+    <div style="margin-top:34px"><p>Можешь закрыть эту статью и сказать себе «потом». Но и «потом» тоже выбор: каждый день в старом сценарии укрепляет ту же программу.</p>
+<p>А можешь прямо сейчас открыть ЭЛЬЛИ и рассказать ей про один запрос, который тянется у тебя дольше всего.</p>
+<p>Она посмотрит твою ситуацию и покажет, какие заслонки держат тебя на месте.</p>
 <p>Дальше поведёт она.</p></div>
     <div class="cta-row" style="justify-content:center">
       <a class="btn" href="https://t.me/ai_coachs_bot?start=stat" target="_blank" rel="noopener">Открыть ЭЛЬЛИ</a>
